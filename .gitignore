@@ -12,7 +12,9 @@ pids
 logs
 results
 tmp
+coverage
 
+.nyc_output
 # Optional npm cache directory
 .npm
 
@@ -22,10 +24,13 @@ public/css/main.css
 
 # API keys and secrets
 .env
+.eslintcache
 
 # Dependency directory
 node_modules
 bower_components
+package-lock.json
+yarn.lock
 
 # Editors
 .idea
@@ -50,3 +55,4 @@ Thumbs.db
 .Trashes
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
+
