@@ -1,5 +1,4 @@
 stages:
-  - lint
   - test
 language: node_js
 before_script:
@@ -15,14 +14,14 @@ addons:
     packages:
       - libnotify-bin
 
+services:
+  - mongodb
 jobs:
   include:
     - stage: test
       install: *1
-      script: npm run test:coverage
+      script: npm run test
       before_install: true
-    - stage: lint
-      script: npm run lint
 
 
 after_success:

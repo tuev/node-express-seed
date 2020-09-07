@@ -1,4 +1,4 @@
-import bodyParser from 'body-parser'
+import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
 import formData from 'express-form-data'
@@ -10,8 +10,6 @@ import session from 'express-session'
 const createApp = (app) => {
   app.use(expressStatusMonitor())
   app.use(compression())
-  app.use(bodyParser.json())
-  app.use(bodyParser.urlencoded({ extended: true }))
 
   app.use(session({
       resave: true,
@@ -30,9 +28,9 @@ const createApp = (app) => {
 
   app.disable('x-powered-by')
 
-  app.use(bodyParser.json())
+  app.use(express.json())
   app.use(formData.parse())
-  app.use(bodyParser.urlencoded({ extended: true }))
+  app.use(express.urlencoded({ extended: true }))
   app.use(cors({
       exposedHeaders: ['X-Total-Count'],
     }))

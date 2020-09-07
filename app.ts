@@ -5,7 +5,7 @@ import express from 'express'
 import chalk from 'chalk'
 import errorHandler from 'errorhandler'
 import dotenv from 'dotenv'
-import createApp from './src/configs/expressConfig'
+import createApp from './configs/expressConfig'
 import connectMongo from './configs/mongodb'
 import appRouter from './src/routers'
 

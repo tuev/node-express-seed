@@ -12,12 +12,8 @@
   "scripts": {
     "start": "nodemon app.ts",
     "cm": "npx git-cz",
-    "lint:es": "eslint --cache --fix",
-    "lint:prettier": "prettier --write",
-    "lint": "npm run lint:es && npm run lint:prettier",
     "start-docker": "bash ./scripts/docker-start.sh",
-    "test": "nyc --reporter=html --reporter=text mocha './src/test/**/*.spec.ts' --require ts-node/register --timeout=10000 --exit",
-    "coverage": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text npm run test"
+    "test": "nyc --reporter=html --reporter=lcov --reporter=text mocha './src/test/**/*.spec.ts' --require ts-node/register --timeout=10000 --exit"
   },
   "dependencies": {
     "axios": "^0.20.0",
@@ -84,7 +80,8 @@
     "exclude": [
       "app.ts",
       "src/configs",
-      "src/test"
+      "src/test",
+      "configs"
     ]
   }
 }
