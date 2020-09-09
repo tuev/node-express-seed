@@ -29,8 +29,9 @@ public/css/main.css
 # Dependency directory
 node_modules
 bower_components
-package-lock.json
+# package-lock.json
 yarn.lock
+dist
 
 # Editors
 .idea

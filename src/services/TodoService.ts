@@ -6,7 +6,7 @@ class TodoService {
     return TodoModel.find()
   }
 
-  public async getTodo(id: string): Promise<Document> {
+  public async getTodo(id: string): Promise<Document | null> {
     return TodoModel.findById(id)
   }
 
@@ -15,11 +15,11 @@ class TodoService {
   }
 
   public async updateTodo(id: string,
-    todo: { title?: string; content?: string }): Promise<Document> {
+    todo: { title?: string; content?: string }): Promise<Document | null> {
     return TodoModel.findByIdAndUpdate(id, todo, { new: true })
   }
 
-  public async deleteTodo(id: string): Promise<Document> {
+  public async deleteTodo(id: string): Promise<Document | null> {
     return TodoModel.findOneAndDelete({ _id: id })
   }
 }
