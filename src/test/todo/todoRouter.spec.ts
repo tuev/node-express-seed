@@ -1,11 +1,11 @@
 import request from 'supertest'
-import app from '../../../app'
+import app from '../../app'
 import TodoModel from '../../models/Todo'
 import { expect } from 'chai'
 
 describe('test todo api', () => {
   const todoContent = { title: 'test', content: 'content' }
-  let todoId = null
+  let todoId: string | null = null
   before(() => {
     TodoModel.create(todoContent).then((todo) => (todoId = todo._id))
   })

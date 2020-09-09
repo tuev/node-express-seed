@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Express, Response, Request, NextFunction } from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
 import formData from 'express-form-data'
@@ -7,7 +7,7 @@ import compression from 'compression'
 import lusca from 'lusca'
 import session from 'express-session'
 
-const createApp = (app) => {
+const createApp = (app: Express) => {
   app.use(expressStatusMonitor())
   app.use(compression())
 
@@ -35,7 +35,7 @@ const createApp = (app) => {
       exposedHeaders: ['X-Total-Count'],
     }))
 
-  app.all('*', function (req, res, next) {
+  app.all('*', function (req: Request, res: Response, next: NextFunction) {
     var origin = req.get('origin')
     res.header('Access-Control-Allow-Origin', origin)
     res.header('Access-Control-Allow-Methods',

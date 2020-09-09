@@ -4,7 +4,7 @@ import TodoModel from '../../models/Todo'
 
 describe('Todo service', () => {
   const todoContent = { title: 'test', content: 'content' }
-  let todoId = null
+  let todoId: string = ''
   before(() => {
     TodoModel.create(todoContent).then((todo) => (todoId = todo._id))
   })
@@ -62,7 +62,7 @@ describe('Todo service', () => {
       const updateTodo = await TodoService.updateTodo(todoId, {
         title: newContent,
       })
-      expect(updateTodo.toJSON().title).to.equal(newContent)
+      expect(updateTodo?.toJSON().title).to.equal(newContent)
     })
   })
 
