@@ -8,29 +8,39 @@ import dotenv from 'dotenv'
 import createApp from './configs/expressConfig'
 import connectMongo from './configs/mongodb'
 import appRouter from './routers'
+import createGracefulTerminator from './configs/gracefulConfig'
+import createHealthCheck from './configs/healthCheckConfig'
+import { createServer } from 'http'
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
 dotenv.config({ path: '.env' })
 
-/**
- * Create Express server.
- */
+/* ------------------------------ SETUP EXPRESS ----------------------------- */
+
+const PORT = process.env.PORT || 8080
 const app = express()
+app.set('port', process.env.PORT || 8080)
 createApp(app)
 
-/**
- * Connect to MongoDB.
- */
+/* ------------------------------ SETUP SERVER ------------------------------ */
+
+const server = createServer(app)
+
+/* ------------------------------- SETUP MONGO ------------------------------ */
 
 connectMongo()
 
-/**
- * Express configuration.
- */
-app.set('port', process.env.PORT || 8080)
-createApp(app)
+/* ---------------------------- GRACEFUL SHUTDOWN --------------------------- */
+
+const gracefulShutdown = createGracefulTerminator(server)
+
+/* ------------------------------ HEALTH CHECK ------------------------------ */
+
+const healthCheck = createHealthCheck(server,
+  { port: +PORT },
+  gracefulShutdown.terminate)
 
 /**
  * Primary app routes.
@@ -38,9 +48,8 @@ createApp(app)
 
 app.use('/api/v1/', appRouter)
 
-/**
- * Error Handler.
- */
+/* ------------------------------ ERROR HANDLER ----------------------------- */
+
 if (process.env.NODE_ENV === 'development') {
   // only use in development
   app.use(errorHandler())
@@ -51,16 +60,16 @@ if (process.env.NODE_ENV === 'development') {
   })
 }
 
-/**
- * Start Express server.
- */
+/* ------------------------------ START SERVER ------------------------------ */
+
 app.listen(app.get('port'), () => {
   const appUri = `http://localhost:${app.get('port')}`
-  console.log('%s App is running at %s in %s mode',
-    chalk.green('🚀'),
+  console.log('🚀 App is running at %s in %s mode',
     chalk.cyan(appUri),
     app.get('env'))
   console.log('  Press CTRL-C to stop\n')
+
+  healthCheck.isServerReady()
 })
 
 export default app
